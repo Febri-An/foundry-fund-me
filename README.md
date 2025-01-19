@@ -1,66 +1,69 @@
-## Foundry
+# Project Automation with Makefile
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This project uses a `Makefile` to automate various development tasks such as building, testing, deploying, and managing dependencies. Below is a guide to understanding and using the available commands.
 
-Foundry consists of:
+## Prerequisites
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- [Foundry](https://github.com/foundry-rs/foundry) installed on your system.
+- Ensure you have `.env` file configured with necessary variables like `SEPOLIA_RPC_URL`, `ACCOUNT`, and `ETHERSCAN_API_KEY`.
 
-## Documentation
+## Commands Overview
 
-https://book.getfoundry.sh/
+### General Commands
 
-## Usage
+| Command         | Description                                                                      |
+|-----------------|----------------------------------------------------------------------------------|
+| `make all`      | Cleans, removes modules, installs dependencies, updates, and builds the project. |
+| `make clean`    | Cleans the repository by removing build artifacts.                               |
+| `make remove`   | Removes git submodules and library dependencies.                                 |
+| `make install`  | Installs required dependencies without committing changes.                       |
+| `make update`   | Updates the project's dependencies.                                              |
+| `make build`    | Builds the project using Foundry.                                                |
+| `make test`     | Runs tests using Foundry.                                                        |
+| `make snapshot` | Takes a snapshot of the current state for testing purposes.                      |
+| `make format`   | Formats the code using Foundry.                                                  |
 
-### Build
+### Local Development
 
-```shell
-$ forge build
-```
+| Command         | Description                                                                 |
+|-----------------|-----------------------------------------------------------------------------|
+| `make anvil`    | Starts a local Ethereum node with deterministic accounts.                   |
 
-### Test
+### Deployment
 
-```shell
-$ forge test
-```
+| Command                  | Description                                                          |
+|--------------------------|----------------------------------------------------------------------|
+| `make deploy`            | Deploys the `DeployFundMe` script locally.                           |
+| `make deploy-sepolia`    | Deploys the `DeployFundMe` script on Sepolia testnet.                |
 
-### Format
+### Interactions
 
-```shell
-$ forge fmt
-```
+| Command         | Description                                                                 |
+|-----------------|-----------------------------------------------------------------------------|
+| `make fund`     | Executes `FundFundMe` interaction script with the sender's address.         |
+| `make withdraw` | Executes `WithdrawFundMe` interaction script with the sender's address.     |
 
-### Gas Snapshots
+## Environment Variables
 
-```shell
-$ forge snapshot
-```
+To ensure proper functionality, create a `.env` file in the root directory and define the following variables:
 
-### Anvil
+- **SEPOLIA_RPC_URL**: The RPC URL for Sepolia testnet
+`https://eth-sepolia.g.alchemy.com/v2/OXgy0cZ2Nax7iFQr3D_DkkRptv_byTa_`.
+- **ACCOUNT**: Your foundry account. You can use:
+    ```bash 
+    cast wallet import <new acc name> --interactive
+- **ETHERSCAN_API_KEY**: API key for verifying contracts on Etherscan.
 
-```shell
-$ anvil
-```
+## Notes
 
-### Deploy
+- **Default Private Keys**:
+  - Anvil: `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+- Replace `<sender's address>` in `make fund` and `make withdraw` commands with the actual sender's address.
 
-### Cast
+## Help
 
-```shell
-$ cast <subcommand>
-```
+To list all available commands, run:
 
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+```bash
+make help
